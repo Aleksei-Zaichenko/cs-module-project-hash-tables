@@ -40,6 +40,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity
         self.table = [None] * capacity
+        self.load_factor = 0
 
     def get_num_slots(self):
         """
@@ -60,6 +61,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.load_factor
 
     def fnv1(self, key):
         """
@@ -77,10 +79,10 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hash = 5381
+        hash_var = 5381
         for c in key:
-            hash = (hash * 33) + ord(c)
-        return hash
+            hash_var = (hash_var * 33) + ord(c)
+        return hash_var
 
     def hash_index(self, key):
         """
@@ -127,26 +129,26 @@ class HashTable:
         index = self.hash_index(key)
         current = self.table[index]
 
-        #if value to be removed is the head of the linked list
-        if (current.get_key() == key):
-            current = current.get_next()
-            current = None
-            return
-
-        #if value to be removed is not the head of the linked list
-        prevNode = current
-        current = current.get_next()
-
-        while current:
+        if current != None:
+            # if value to be removed is the head of the linked list
             if (current.get_key() == key):
-                prevNode.set_next(current.get_next())
+                self.table[index] = current.get_next()
                 current = None
-            prevNode = current
-            current = current.get_next()
+                return
 
-        #value to be removed was not found
+            # if value to be removed is not the head of the linked list
+
+            prevNode = current
+            while current:
+                if (current.get_key() == key):
+                    prevNode.set_next(current.get_next())
+                    current = None
+                    return
+                prevNode = current
+                current = current.get_next()
+
+        # value to be removed was not found
         print('Warning: the key is not found')
-        return None
 
     def get(self, key):
         """
@@ -160,10 +162,11 @@ class HashTable:
         index = self.hash_index(key)
         current = self.table[index]
 
-        while current:
-            if (current.get_key() == key):
-                return current.get_value()
-            current = current.get_next()
+        if current != None:
+            while current:
+                if (current.get_key() == key):
+                    return current.get_value()
+                current = current.get_next()
 
         return None
 
@@ -193,21 +196,19 @@ if __name__ == "__main__":
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
 
-    print("")
-
-    # Test storing beyond capacity
+    Test storing beyond capacity
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
 
-    # # Test resizing
-    # old_capacity = ht.get_num_slots()
-    # ht.resize(ht.capacity * 2)
-    # new_capacity = ht.get_num_slots()
+    # Test resizing
+    old_capacity = ht.get_num_slots()
+    ht.resize(ht.capacity * 2)
+    new_capacity = ht.get_num_slots()
 
-    # print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    # for i in range(1, 13):
-    #     print(ht.get(f"line_{i}"))
+    Test if data intact after resizing
+    for i in range(1, 13):
+        print(ht.get(f"line_{i}"))
 
-    # print("")
+    print("")
