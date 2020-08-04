@@ -38,9 +38,10 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = capacity if capacity >= MIN_CAPACITY else MIN_CAPACITY   
+        self.capacity = capacity if capacity >= MIN_CAPACITY else MIN_CAPACITY
         self.table = [None] * capacity
         self.load_factor = 0
+        self.numOfOccupiedSlots = 0
 
     def get_num_slots(self):
         """
@@ -104,10 +105,13 @@ class HashTable:
 
         # Your code here
         index = self.hash_index(key)
-        
+
         newNode = HashTableEntry(key, value)
         newNode.set_next(self.table[index])
         self.table[index] = newNode
+
+        self.numOfOccupiedSlots += 1
+        self.load_factor = self.numOfOccupiedSlots / self.capacity
 
     def delete(self, key):
         """
@@ -122,6 +126,11 @@ class HashTable:
         current = self.table[index]
 
         if current != None:
+
+            self.numOfOccupiedSlots -= 1
+            self.load_factor = (
+                self.numOfOccupiedSlots / self.capacity) if self.numOfOccupiedSlots > 0 else 0
+
             # if value to be removed is the head of the linked list
             if (current.get_key() == key):
                 self.table[index] = current.get_next()
@@ -169,7 +178,18 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        if new_capacity > MIN_CAPACITY:
+            tempTable = self.table
+            self.table = [None] * new_capacity
+            self.capacity = new_capacity
+            self.load_factor = self.numOfOccupiedSlots / self.capacity
 
+            for item in tempTable:
+                current = item
+                while current:
+                    self.put(current.get_key(),current.get_value())
+                    current = current.get_next()
+                    
 
 if __name__ == "__main__":
     ht = HashTable(8)
@@ -187,10 +207,10 @@ if __name__ == "__main__":
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
 
-    #Test storing beyond capacity
+    # Test storing beyond capacity
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
-
+    
     # Test resizing
     old_capacity = ht.get_num_slots()
     ht.resize(ht.capacity * 2)
@@ -198,7 +218,7 @@ if __name__ == "__main__":
 
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    #Test if data intact after resizing
+    # Test if data intact after resizing
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
 
