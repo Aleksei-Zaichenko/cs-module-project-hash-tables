@@ -38,7 +38,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = capacity
+        self.capacity = capacity if capacity >= MIN_CAPACITY else MIN_CAPACITY   
         self.table = [None] * capacity
         self.load_factor = 0
 
@@ -53,6 +53,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.capacity
 
     def get_load_factor(self):
         """
@@ -103,16 +104,7 @@ class HashTable:
 
         # Your code here
         index = self.hash_index(key)
-        current = self.table[index]
-
-        # use while loop to check for collision
-        while current:
-            if (current.get_key() == key):
-                current.set_value(value)
-                return
-            current = current.get_next()
-
-        # if no collision detected, insert into table
+        
         newNode = HashTableEntry(key, value)
         newNode.set_next(self.table[index])
         self.table[index] = newNode
@@ -162,11 +154,10 @@ class HashTable:
         index = self.hash_index(key)
         current = self.table[index]
 
-        if current != None:
-            while current:
-                if (current.get_key() == key):
-                    return current.get_value()
-                current = current.get_next()
+        while current:
+            if (current.get_key() == key):
+                return current.get_value()
+            current = current.get_next()
 
         return None
 
@@ -196,7 +187,7 @@ if __name__ == "__main__":
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
 
-    Test storing beyond capacity
+    #Test storing beyond capacity
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
 
@@ -207,7 +198,7 @@ if __name__ == "__main__":
 
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    Test if data intact after resizing
+    #Test if data intact after resizing
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
 
