@@ -40,7 +40,6 @@ class HashTable:
         # Your code here
         self.capacity = capacity if capacity >= MIN_CAPACITY else MIN_CAPACITY
         self.table = [None] * capacity
-        self.load_factor = 0
         self.numOfOccupiedSlots = 0
 
     def get_num_slots(self):
@@ -63,7 +62,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.load_factor
+        return (self.numOfOccupiedSlots / self.capacity)
 
     def fnv1(self, key):
         """
@@ -83,7 +82,7 @@ class HashTable:
         # Your code here
         hash_var = 5381
         for c in key:
-            hash_var = (hash_var * 33) + ord(c)
+            hash_var = (hash_var * 33) + ord(c)#digital representation of c 
         return hash_var
 
     def hash_index(self, key):
@@ -104,14 +103,14 @@ class HashTable:
         """
 
         # Your code here
-        index = self.hash_index(key)
+        index = self.hash_index(key)#2
 
         newNode = HashTableEntry(key, value)
-        newNode.set_next(self.table[index])
+        newNode.set_next(self.table[index])#2
         self.table[index] = newNode
 
         self.numOfOccupiedSlots += 1
-        self.load_factor = self.numOfOccupiedSlots / self.capacity
+        
 
     def delete(self, key):
         """
@@ -128,8 +127,6 @@ class HashTable:
         if current != None:
 
             self.numOfOccupiedSlots -= 1
-            self.load_factor = (
-                self.numOfOccupiedSlots / self.capacity) if self.numOfOccupiedSlots > 0 else 0
 
             # if value to be removed is the head of the linked list
             if (current.get_key() == key):
@@ -178,13 +175,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        if new_capacity > MIN_CAPACITY:
+        if new_capacity >= MIN_CAPACITY:#which is 8
             tempTable = self.table
-            self.table = [None] * new_capacity
+            self.table = [None] * new_capacity#example 16, 
             self.capacity = new_capacity
-            self.load_factor = self.numOfOccupiedSlots / self.capacity
 
-            for item in tempTable:
+            for item in tempTable:#always head 
                 current = item
                 while current:
                     self.put(current.get_key(),current.get_value())
