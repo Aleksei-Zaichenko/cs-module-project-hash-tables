@@ -1,28 +1,17 @@
-def no_dups(s):
+def no_dups(s):# a string
     # Your code here
     if len(s) > 0:
-        listVersion = s.split(' ')
+        listVersion = s.split(' ')#change to list
         noDuplicates = {}
 
-        for word in listVersion:
+        for word in listVersion: #iterate through the list 
             if word  in noDuplicates.keys():
                 noDuplicates[word] += 1
             else:
                 noDuplicates[word] = 1
-        return (" ".join(noDuplicates.keys()))
+        return (" ".join(noDuplicates.keys()))# change back to string
     else:
         return ''
-
-    # if len(s) > 0:
-    #     listVersion = s.split(' ')
-    #     noDuplicates = []
-
-    #     for word in listVersion:
-    #         if noDuplicates.count(word) == 0:
-    #             noDuplicates.append(word)
-    #     return (" ".join(noDuplicates))
-    # else:
-    #     return ''
 
 
 if __name__ == "__main__":

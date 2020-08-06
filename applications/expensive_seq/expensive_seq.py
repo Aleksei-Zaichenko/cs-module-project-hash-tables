@@ -4,11 +4,11 @@ cache = {}
 
 def expensive_seq(x, y, z):
     # Your code here
-    key = (x,y,z)
+    key = (x,y,z) # key
     if x <= 0:
         if key in cache:
             return cache[key]
-        cache[key] = y + z
+        cache[key] = y + z # value
         return cache[key]
     if x > 0:
         if key in cache:

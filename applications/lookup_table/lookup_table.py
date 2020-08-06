@@ -11,8 +11,10 @@ def slowfun_too_slow(x, y):
 
     return v
 
-#Dict will be used as a cache
+
+# Dict will be used as a cache
 Dict = {}
+
 
 def check_for_presence(x, y):
 
@@ -39,19 +41,20 @@ def slowfun(x, y):
     # check for presence in dictionary
 
     result = check_for_presence(x, y)
-    if result == False: #the dictionary does not have saved (x, y) pair to 'v'
+    # the dictionary does not have saved (x, y) pair to 'v'
+    if result == False:
         tempObject = dict({'x': x, 'y': y})
 
         v = math.pow(x, y)  # x ^ y
         v = math.factorial(v)  # v!
         v //= (x + y)  # v // (x + y)
-        v %= 982451653
+        v %= 982451653  # final value of v
 
-        #after computation we add the result 'v' to the dictionary
+        # after computation we add the result 'v' to the dictionary
         Dict[v] = tempObject
 
         return v
-    else: #if we can find (x, y) pair in the dictionary, skip all computations and return the result
+    else:  # if we can find (x, y) pair in the dictionary, skip all computations and return the result
         return(get_the_key_from_dictionary(result))
 
 
@@ -59,4 +62,3 @@ for i in range(50000):
     x = random.randrange(2, 14)
     y = random.randrange(3, 6)
     print(f'{i}: {x},{y}: {slowfun(x, y)}')
-
