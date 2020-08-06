@@ -1,6 +1,15 @@
 def no_dups(s):
     # Your code here
+    noDuplicates = []
+    if len(s) > 0:
+        listVersion = s.split(' ')
 
+        for word in listVersion:
+            if noDuplicates.count(word) == 0:
+                noDuplicates.append(word)
+        return (" ".join(noDuplicates))
+    else:
+        return ''
 
 
 if __name__ == "__main__":
