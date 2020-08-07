@@ -27,7 +27,7 @@ for word in listOfWords:
 # Your code here
 for i in range(5):
     print(startingWords[random.randint(0,(len(startingWords) -1)) ], end =' ')
-    for i in range (random.randint(0,(len(middleWords) -1))):
+    for j in range (random.randint(0,(len(middleWords) -1))):
         print(middleWords[random.randint(0,(len(middleWords) -1)) ], end =' ')
     print(endingWords[random.randint(0,(len(endingWords) -1)) ])
     print('\n')

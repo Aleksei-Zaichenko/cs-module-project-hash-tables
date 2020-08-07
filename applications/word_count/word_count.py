@@ -1,5 +1,5 @@
 
-ingoredCharacters = ('":;,.-+=/\\|[]{}()*^&')
+ignoredCharacters = ('":;,.-+=/\\|[]{}()*^&')
 
 def word_count(s):
     dictionary = {}
@@ -7,7 +7,7 @@ def word_count(s):
     listOfWords = s.lower().split()
 
     for word in listOfWords:
-        for i in ingoredCharacters:
+        for i in ignoredCharacters:
             if word.endswith(i):
                 word = word[:len(word) - 1]
             if word.startswith(i):
